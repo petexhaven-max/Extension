@@ -3,11 +3,17 @@
   "name": "SuperNewsFeed",
   "description": "Ultra-modern, international news doomscrolling feed — full-screen, limitless, addictive.",
   "version": "1.0.0",
+
   "action": {
     "default_popup": "index.html"
   },
+
   "icons": {
     "128": "public/icon.png"
   },
-  "permissions": ["storage", "activeTab"]
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ]
 }

@@ -4,10 +4,10 @@ export default [
     logo: "https://news.files.bbci.co.uk/include/newsspec/19854/assets/app-project-assets/bbc-news.png",
     homepage: "https://bbc.com/news",
     rss: [
-      { category: "breaking", url: "http://feeds.bbci.co.uk/news/world/rss.xml" },
-      { category: "technology", url: "http://feeds.bbci.co.uk/news/technology/rss.xml" },
+      { category: "breaking", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
+      { category: "technology", url: "https://feeds.bbci.co.uk/news/technology/rss.xml" },
       { category: "markets", url: "https://feeds.bbci.co.uk/news/business/market_data/rss.xml" },
-      { category: "geopolitics", url: "http://feeds.bbci.co.uk/news/world/asia/rss.xml" }
+      { category: "geopolitics", url: "https://feeds.bbci.co.uk/news/world/asia/rss.xml" }
     ]
   },
   {
@@ -15,10 +15,10 @@ export default [
     logo: "https://s1.reutersmedia.net/resources_v2/images/favicon/favicon-96x96.png",
     homepage: "https://reuters.com/",
     rss: [
-      { category: "breaking", url: "http://feeds.reuters.com/reuters/worldNews" },
-      { category: "technology", url: "http://feeds.reuters.com/reuters/technologyNews" },
-      { category: "markets", url: "http://feeds.reuters.com/reuters/businessNews" },
-      { category: "geopolitics", url: "http://feeds.reuters.com/Reuters/worldNews" }
+      { category: "breaking", url: "https://feeds.reuters.com/reuters/worldNews" },
+      { category: "technology", url: "https://feeds.reuters.com/reuters/technologyNews" },
+      { category: "markets", url: "https://feeds.reuters.com/reuters/businessNews" },
+      { category: "geopolitics", url: "https://feeds.reuters.com/Reuters/worldNews" }
     ]
   },
   {

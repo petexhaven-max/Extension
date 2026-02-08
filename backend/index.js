@@ -70,6 +70,7 @@ app.get("/api/article", async (req, res) => {
 });
 
 // ---- Core RSS Parsing ----
+
 async function fetchAllFeeds(category, limit = 10) {
   const articles = [];
   await Promise.all(
@@ -110,7 +111,6 @@ async function fetchAllFeeds(category, limit = 10) {
     .slice(0, limit);
 }
 
-// Fetch & parse a single RSS feed URL, with HTTPS, timeout, and user-agent
 async function fetchRss(url) {
   const items = [];
   try {
@@ -156,89 +156,7 @@ function extractImagesFromDescription(desc) {
   return matches;
 }
 
-// Title -> high-impact, concise, "doomscroll" hook
 function formatHookTitle(raw) {
-  return (raw || "").trim();
-}
-
-// ----------
-
-const PORT = process.env.PORT || 5032;
-app.listen(PORT, () => console.log(`News backend running at http://localhost:${PORT}`));
-// ---- Core RSS Parsing ----
-async function fetchAllFeeds(category, limit = 10) {
-  const articles = [];
-
-  await Promise.all(
-    sources.map(async (src) => {
-      const matchRss = src.rss.find(r => r.category === category);
-      if (!matchRss) return;
-      const entries = await fetchRss(matchRss.url);
-      entries.forEach(e => {
-        const singleImg = extractImage(e);
-        articles.push({
-          id: generateId(e.title, e.link),
-          source: src.name,
-          sourceLogo: src.logo,
-          sourceHome: src.homepage,
-          title: formatHookTitle(e.title),
-          summary: summarize(e.summary || e.description || "", 200),
-          image: singleImg,
-          link: e.link
-        });
-      });
-    })
-  );
-
-  // Remove dups & sort by recent (pubDate, fallback to order)
-  const unique = {};
-  articles.forEach(a => unique[a.id] = a);
-  return Object.values(unique)
-    .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0))
-    .slice(0, limit);
-}
-
-// Fetch & parse a single RSS feed URL
-async function fetchRss(url) {
-  const items = [];
-  const response = await axios.get(url, { responseType: "stream" });
-  return new Promise((resolve, reject) => {
-    const feedparser = new FeedParser();
-    response.data.pipe(feedparser);
-
-    feedparser.on("error", reject);
-    feedparser.on("readable", function () {
-      let item;
-      while ((item = this.read())) items.push(item);
-    });
-    feedparser.on("end", () => resolve(items));
-  });
-}
-
-function extractImage(entry) {
-  // Scan various fields for one usable image URL
-  const candidates = [
-    entry.image && entry.image.url,
-    entry.enclosures && entry.enclosures.length && entry.enclosures[0].url,
-    entry['media:content'] && entry['media:content']['@'] && entry['media:content']['@'].url
-  ].concat(extractImagesFromDescription(entry.description || ""));
-
-  return (candidates.find(Boolean) || "");
-}
-
-function extractImagesFromDescription(desc) {
-  const imgRegex = /<img[^>]+src="([^">]+)"/gi;
-  const matches = [];
-  let m;
-  while ((m = imgRegex.exec(desc))) {
-    matches.push(m[1]);
-  }
-  return matches;
-}
-
-// Title -> high-impact, concise, "doomscroll" hook
-function formatHookTitle(raw) {
-  // For MVP: just trim and upper/lowercase. Can prepend emojis, detectors etc. if desired.
   return (raw || "").trim();
 }
 
